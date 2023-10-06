@@ -4,11 +4,15 @@ import Section from './Section';
 import ContactForm from './ContactForm';
 import ContactsList from './ContactsList';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, removeContactById } from 'redux/phonebook.slice';
+import {
+  addContact,
+  getContacts,
+  removeContactById,
+} from 'redux/phonebook.slice';
 
 function App() {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.phonebook.contacts.items);
+  const contacts = useSelector(getContacts);
 
   const onGetDataForm = data => {
     const hasName = contacts.some(it => it.name === data.name);
