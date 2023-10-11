@@ -1,12 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { phonebookSlice } from './phonebook.slice';
-
-const phonebookReducer = phonebookSlice.reducer;
+import { persistedPhonebookReducer } from './phonebook.slice';
+import { persistStore } from 'redux-persist';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist/es/constants';
 
 export const store = configureStore({
   reducer: {
-    phonebook: phonebookReducer,
+    phonebook: persistedPhonebookReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-export default store;
+export const persistor = persistStore(store);
